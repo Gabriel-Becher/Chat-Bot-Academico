@@ -20,5 +20,5 @@
 
 ### Modelos LLM
 
-- Mystral7B
-- Deepseek-r1
+- Gemma 3
+- phi4-mini
