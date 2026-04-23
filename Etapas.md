@@ -5,7 +5,7 @@
 ### Documentos excluidos da seleção
 
 - Planta de projeto de infraestrutura
-- Corpo docente 2025(unico disponível)
+- Corpo docente 2025
 - Corpo docente permanente
 - Composição do Colegiado de curso
 - Eventos
