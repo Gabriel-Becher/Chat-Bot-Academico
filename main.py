@@ -14,3 +14,9 @@ def update_vector_store():
     vector_store = get_vector_store()
     total_docs = len(vector_store._collection.get()['ids'])
     return {"message": f"Vector store updated. Total documents: {total_docs}"}
+
+@app.get("/query")
+def query_vector_store(query: str):
+    vector_store = get_vector_store()
+    results = vector_store.similarity_search(query, k=5)
+    return {"results": [str(result) for result in results]}
