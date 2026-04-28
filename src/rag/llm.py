@@ -9,6 +9,8 @@ Você é agora um assistente acadêmico especializado em documentos de mestrado 
 def ask_question(question: str, context: str = "") -> str:
     user_content = f"Contexto:\n{context}\n\nPergunta:\n{question}" if context else question
 
+    
+
     resp = ollama.chat(
         model=LLM_MODEL,
         messages=[

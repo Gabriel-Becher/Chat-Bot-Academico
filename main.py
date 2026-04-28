@@ -19,5 +19,6 @@ def update_vector_store():
 @app.get("/query")
 def query_vector_store(query: str):
     vector_store = get_vector_store()
-    results = ask_question(query)
-    return {"results": str(results)}
+    context = vector_store.similarity_search(query, k=3)
+    results = ask_question(query, context="".join([doc.page_content for doc in context]))
+    return {"results": str(results), "context": [doc.page_content for doc in context]}
