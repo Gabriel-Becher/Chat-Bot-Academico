@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from src.rag import ingestion
 from src.rag import get_vector_store
 from src.rag import ask_question
+from src.rag import retrieve
 
 
 
@@ -15,6 +16,8 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+ingestion.ingest_data()
 
 @app.get("/")
 def testResponse():
@@ -29,7 +32,7 @@ def update_vector_store():
 
 @app.get("/query")
 def query_vector_store(query: str):
-    vector_store = get_vector_store()
-    context = vector_store.similarity_search(query, k=3)
-    results = ask_question(query, context="".join([doc.page_content for doc in context]))
-    return {"results": str(results), "context": [doc.page_content for doc in context]}
+    context_docs = retrieve(query)
+    context_text = "\n\n---\n\n".join(doc.page_content for doc in context_docs)
+    results = ask_question(query, context=context_text)
+    return {"results": str(results), "context": [doc.page_content for doc in context_docs]}
