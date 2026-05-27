@@ -1,12 +1,24 @@
+import re
 import ollama
 
 LLM_MODEL = "phi4-mini"
 
 SYSTEM_PROMPT = """
-você é um assistente de perguntas e respostas. Responda às perguntas com base no contexto fornecido. Se o contexto não for suficiente para responder à pergunta, responda com "Desculpe, não tenho informações suficientes para responder a essa pergunta.""
+voce e um assistente de perguntas e respostas. use somente o contexto fornecido.
+
+regras:
+- nao use conhecimento externo.
+- se a informacao nao estiver claramente no contexto, responda exatamente: "desculpe, nao tenho informacoes suficientes para responder a essa pergunta."
+- se o contexto tiver um link ou trecho literal que responda, devolva esse trecho exatamente como aparece.
+- se o contexto mencionar apenas fontes (ex.: links) e a pergunta pedir detalhes especificos, diga que o contexto nao traz esses detalhes.
+- responda de forma direta e objetiva.
 """
 def ask_question(question: str, context: str = "") -> str:
-    user_content = f"Contexto:\n{context}\n\nPergunta:\n{question}" if context else question
+    if context:
+        cleaned_context = re.sub(r"[ \t]+", " ", context).strip()
+        user_content = f"Contexto:\n{cleaned_context}\n\nPergunta:\n{question}"
+    else:
+        user_content = question
 
     
 
