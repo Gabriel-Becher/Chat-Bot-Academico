@@ -5,8 +5,6 @@ from src.rag import get_vector_store
 from src.rag import ask_question
 from src.rag import retrieve
 
-
-
 app = FastAPI()
 
 app.add_middleware(
