@@ -1,15 +1,3 @@
-"""
-Análise dos resultados do RAGAS (resultados_ragas.csv)
-
-Gera:
-- Estatísticas descritivas das 4 métricas
-- Histogramas de distribuição de cada métrica
-- Heatmap de correlação entre métricas
-- Boxplot comparativo das 4 métricas
-- Lista das piores perguntas (menor score médio)
-- Gráfico de barras das N piores perguntas por métrica
-"""
-
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -24,8 +12,6 @@ sns.set_theme(style="whitegrid")
 
 def load_data(path: str) -> pd.DataFrame:
     df = pd.read_csv(path)
-
-    # Garante que as métricas são numéricas (linhas com erro/timeout viram NaN)
     for col in METRICS:
         df[col] = pd.to_numeric(df[col], errors="coerce")
 
@@ -89,7 +75,6 @@ def plot_correlation(df: pd.DataFrame):
     fig.savefig(f"{OUTPUT_DIR}/correlacao_metricas.png", dpi=150)
     plt.close(fig)
 
-
 def plot_worst_questions(df: pd.DataFrame, n: int = 10):
     df = df.copy()
     df["score_medio"] = df[METRICS].mean(axis=1)
@@ -106,7 +91,6 @@ def plot_worst_questions(df: pd.DataFrame, n: int = 10):
         for col in METRICS:
             print(f"    {col}: {row[col]:.3f}" if pd.notna(row[col]) else f"    {col}: N/A")
 
-    # Gráfico de barras horizontal
     fig, ax = plt.subplots(figsize=(10, max(4, n * 0.5)))
     labels = [
         q if len(q) <= 50 else q[:47] + "..."
@@ -160,16 +144,6 @@ def main():
     plot_correlation(df)
     plot_worst_questions(df, n=10)
     plot_metric_by_question_heatmap(df, n=15)
-
-    print("\n" + "=" * 60)
-    print("Gráficos salvos:")
-    print("  - distribuicoes_metricas.png")
-    print("  - boxplot_metricas.png")
-    print("  - correlacao_metricas.png")
-    print("  - piores_perguntas.png")
-    print("  - heatmap_piores_perguntas.png")
-    print("=" * 60)
-
 
 if __name__ == "__main__":
     main()
