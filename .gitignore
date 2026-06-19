@@ -210,6 +210,6 @@ __marimo__/
 db/*
 
 #imagens
-.png
-.jpeg
-.jpg
+*.png
+*.jpeg
+*.jpg
