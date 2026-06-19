@@ -208,3 +208,8 @@ __marimo__/
 
 #base de dados
 db/*
+
+#imagens
+.png
+.jpeg
+.jpg
